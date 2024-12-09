@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
-import express from 'express';
-const app = express()
-const port = 3000
-
+const port: number = 3000
+import app from './app';
+import config from './app/config/config';
 
 
 
@@ -10,20 +9,17 @@ const port = 3000
 
 async function bootstrap() {
     try {
-  await mongoose.connect('mongodb://127.0.0.1:27017/astoria-hotel');
+  await mongoose.connect(config.databse_url as string);
   console.log(`Database Connection SuccessFully`)
-  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+  })
+
     } catch (error) {
         console.log('Falied To Connect Database',error)
     }
 }
+
+bootstrap().then(()=> console.log('Connect MongoDB ')).catch(err => console.log(err));
 bootstrap()
-
-
-app.get('/', (req, res) => {
-  res.send("Astoria Hotel's Server is Running!")
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
