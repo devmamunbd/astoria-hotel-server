@@ -1,27 +1,27 @@
 import { model, Schema } from "mongoose";
-// const mongoose = require('mongoose');
 
-
-
-export const BlogSchema = new Schema({
+export const BlogSchema = new Schema(
+  {
     title: {
-        type: String,
-        require: true
+      type: String,
+      require: true,
     },
     description: {
-        type: String,
-        require: true
+      type: String,
+      require: true,
     },
     content: String,
     coverImg: String,
     category: String,
     author: String,
     ratting: Number,
-    createdAt: {
-        type: Date,
-        default: Date.now
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
     },
+  }
+);
 
-});
-
-export const Blog = model('Blog', BlogSchema)
+export const Blog = model("Blog", BlogSchema);

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { BlogService } from "./blog.service";
+import { Comment } from "../comment/comment.model";
 
 
 
@@ -61,6 +62,7 @@ const getSingleBlogs = async(req: Request, res: Response)=> {
     if(!post){
         return res.status(404).send({message: "Blog Not Found"})
     };
+    const comment = await Comment.find({id: id}).populate('user', "username email")
     res.status(200).send({
         message: 'Get Single Blog SuccessFully',
         post: post
@@ -72,6 +74,9 @@ const updateBlogs = async(req: Request, res: Response)=> {
     const {id} = req.params;
     const updateBlog = req.body;
     const result = await BlogService.updateBlog(id, updateBlog);
+    if (!result) {
+        return res.status(404).send({message: 'Blog Not Found'})
+    }
     res.status(200).send({
         message: 'Update Blog SuccessFully',
         post: result
@@ -82,11 +87,31 @@ const updateBlogs = async(req: Request, res: Response)=> {
 const deleteBlogs = async(req: Request, res: Response)=> {
     const id = req.params.id;
     const result = await BlogService.deleteBlog(id);
+    if (!result) {
+        return res.status(404).send({message: 'Blog Not Fount'})
+    }
+    // delete related comments
+    await Comment.deleteMany({id: id})
     res.status(200).send({
         message: 'Delete Blog SuccessFully',
         post: result
     })
 }
+
+// related blogs
+const relatedBlogs = async(req: Request, res: Response)=> {
+    const id = req.params.id;
+    if (!id) {
+        return res.status(400).send({message: 'Post id is required'})
+    }
+    const result = await BlogService.relatedBlog(id)
+    res.status(200).send({
+        message: 'Related Blog Get SuccessFully',
+        post: result
+    })
+
+}
+
 
 
 export const BlogController = {
@@ -94,5 +119,6 @@ export const BlogController = {
     createBlogPosts,
     getSingleBlogs,
     updateBlogs,
-    deleteBlogs
+    deleteBlogs,
+    relatedBlogs
 }

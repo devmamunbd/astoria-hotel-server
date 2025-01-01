@@ -28,6 +28,7 @@ const getSingleBlog = async(id: string)=> {
 const updateBlog = async(id: string,  payload: Partial<IBlog>)=> {
     const {...blogData} = payload;
     const updateBlogData: Partial <IBlog> = {...blogData}
+
     const result = await Blog.findByIdAndUpdate({id}, updateBlogData, {
         new: true
     });
@@ -40,10 +41,18 @@ const deleteBlog = async(id: string)=> {
     return result
 }
 
+// related blog
+const relatedBlog = async(id: string)=> {
+    const result = Blog.findById(id);
+    
+    return result
+}
+
 export const BlogService = {
     getAllBlog,
     createBlogPost,
     getSingleBlog,
     updateBlog,
-    deleteBlog
+    deleteBlog,
+    relatedBlog
 }

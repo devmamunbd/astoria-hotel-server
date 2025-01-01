@@ -12,7 +12,7 @@ app.use(express.urlencoded({extended: true}))
 
 
 // Application routes
-app.use('/api/hotel', router)
+app.use('/api/v1', router)
 
 
 app.get('/', (req: Request, res: Response) => {
