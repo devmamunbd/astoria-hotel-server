@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { UserService } from "./user.service";
+import { Types } from "mongoose";
+import { generateToken } from "../../middlewares/generateToken";
 
 
 
@@ -8,7 +10,7 @@ const createUsers = async(req: Request, res: Response)=> {
     const {email, password, username} = req.body;
     const result = await UserService.createUser({
         email, password, username,
-        role: "" // or any default role
+        role: "user" // or any default role
     })
 
     res.status(200).send({
@@ -30,12 +32,21 @@ const loginUsers = async (req: Request, res: Response) => {
                 success: false,
             });
         }
-
         // Authenticate user
         const result = await UserService.loginUser(user);
 
+        // generate token here
+        const token = await generateToken(result._id.toString())
+        // console.log(token)
+        res.cookie("token", token, {
+            httpOnly: true, // enable this only when have https://
+            secure: true,
+            sameSite: true
+        })
+
         // Respond with success message
         res.status(200).send({
+            token,
             message: "User Login Successfully",
             success: true,
             user: {
