@@ -47,6 +47,14 @@ const deleteUser = async(id: string)=> {
     return result
 }
 
+// update user role
+const updateUserRole = async(id: string, role: string)=> {
+    const result = await User.findByIdAndUpdate(id, {role}, {new: true});
+    return result
+}
+
+
+
 
 // log out
 const logOutUser = async(user: string)=> {
@@ -60,5 +68,6 @@ export const UserService = {
     loginUser,
     logOutUser,
     getAllUser,
-    deleteUser
+    deleteUser,
+    updateUserRole
 }

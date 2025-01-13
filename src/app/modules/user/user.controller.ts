@@ -94,6 +94,24 @@ const deleteUsers = async(req: Request, res: Response)=> {
     }
 }
 
+// update user role
+const updateUserRoles = async(req: Request, res: Response)=> {
+    try {
+    const {id} = req.params;
+    const {role} = req.body;
+    const result = await UserService.updateUserRole(id, role);
+    res.status(200).send({
+    message: "user role update successfully",
+    success: true,
+    data: result
+    })
+    } catch (error) {
+
+    }
+}
+
+
+
 // log out
 const logOutUsers = async(req: Request, res: Response)=> {
     const user = req.body;
@@ -113,5 +131,6 @@ export const UserController = {
     loginUsers,
     logOutUsers,
     getAllUsers,
-    deleteUsers
+    deleteUsers,
+    updateUserRoles
 }
