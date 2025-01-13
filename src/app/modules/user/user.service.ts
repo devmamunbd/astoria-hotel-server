@@ -35,6 +35,11 @@ const loginUser = async (user: IUser) => {
     return existingUser;
 };
 
+// get all user
+const getAllUser = async ()=> {
+    const result = await User.find({}, 'id username email role');
+    return result
+}
 
 // log out
 const logOutUser = async(user: string)=> {
@@ -46,5 +51,6 @@ const logOutUser = async(user: string)=> {
 export const UserService = {
     createUser,
     loginUser,
-    logOutUser
+    logOutUser,
+    getAllUser
 }

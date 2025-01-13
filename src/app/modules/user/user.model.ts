@@ -56,12 +56,8 @@ userSchema.methods.comparePassword = async function (candidatePassword: string) 
 };
 
 // Method to log out user
-
-userSchema.statics.logOut = async function (userId: string) {
-
-    // Implement your log out logic here
-
-    return { message: 'User logged out successfully' };
+userSchema.statics.logOut = async function (user: string) {
+    return { message: `User ${user} logged out successfully` };
 
 };
 

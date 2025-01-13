@@ -10,6 +10,9 @@ router.post('/register', UserController.createUsers)
 // login user
 router.post('/login', UserController.loginUsers)
 
+// get all user
+router.get('/allUsers', UserController.getAllUsers)
+
 // log out user
 router.post('/logout', UserController.logOutUsers)
 

@@ -65,6 +65,22 @@ const loginUsers = async (req: Request, res: Response) => {
 };
 
 
+// get all users
+const getAllUsers= async(req: Request, res: Response)=> {
+    const user = req.body;
+    try {
+        const result = await UserService.getAllUser(user);
+        res.status(200).send({
+            message: "Get All Users SuccessFully",
+            success: true,
+            data: result
+        })
+    } catch (error) {
+        res.status(500).json({message: "failed to fetch user"})
+    }
+}
+
+
 // log out
 const logOutUsers = async(req: Request, res: Response)=> {
     const user = req.body;
@@ -82,5 +98,6 @@ const logOutUsers = async(req: Request, res: Response)=> {
 export const UserController = {
     createUsers,
     loginUsers,
-    logOutUsers
+    logOutUsers,
+    getAllUsers
 }
