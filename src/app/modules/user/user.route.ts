@@ -13,6 +13,9 @@ router.post('/login', UserController.loginUsers)
 // get all user
 router.get('/allUsers', UserController.getAllUsers)
 
+// delete a user
+router.delete('/delete/:id', UserController.deleteUsers)
+
 // log out user
 router.post('/logout', UserController.logOutUsers)
 

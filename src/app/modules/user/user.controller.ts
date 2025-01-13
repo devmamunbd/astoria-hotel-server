@@ -69,7 +69,7 @@ const loginUsers = async (req: Request, res: Response) => {
 const getAllUsers= async(req: Request, res: Response)=> {
     const user = req.body;
     try {
-        const result = await UserService.getAllUser(user);
+        const result = await UserService.getAllUser();
         res.status(200).send({
             message: "Get All Users SuccessFully",
             success: true,
@@ -80,6 +80,19 @@ const getAllUsers= async(req: Request, res: Response)=> {
     }
 }
 
+// delete a user
+const deleteUsers = async(req: Request, res: Response)=> {
+    const {id} = req.params;
+    try {
+        const user = await UserService.deleteUser(id)
+        if (!user) {
+            return res.status(404).send({message: "user not found"})
+        }
+        res.status(200).send({message: "user Delete SuccessFully"})
+    } catch (error) {
+        res.status(500).send({message: "Delete Failed"})
+    }
+}
 
 // log out
 const logOutUsers = async(req: Request, res: Response)=> {
@@ -99,5 +112,6 @@ export const UserController = {
     createUsers,
     loginUsers,
     logOutUsers,
-    getAllUsers
+    getAllUsers,
+    deleteUsers
 }

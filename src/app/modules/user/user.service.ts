@@ -41,6 +41,13 @@ const getAllUser = async ()=> {
     return result
 }
 
+// delete a user
+const deleteUser = async(id: string)=> {
+    const result = await User.findByIdAndDelete(id);
+    return result
+}
+
+
 // log out
 const logOutUser = async(user: string)=> {
     const result = await User.logOut(user);
@@ -52,5 +59,6 @@ export const UserService = {
     createUser,
     loginUser,
     logOutUser,
-    getAllUser
+    getAllUser,
+    deleteUser
 }
