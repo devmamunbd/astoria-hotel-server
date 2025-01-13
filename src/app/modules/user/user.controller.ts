@@ -65,8 +65,22 @@ const loginUsers = async (req: Request, res: Response) => {
 };
 
 
+// log out
+const logOutUsers = async(req: Request, res: Response)=> {
+    const user = req.body;
+    try {
+        await UserService.logOutUser(user);
+        res.clearCookie('token');
+        res.status(200).send({message: "Log Out SuccessFully"})
+    } catch (error) {
+        res.status(500).json({message: "Log Out Failed"})
+    }
+}
+
+
 
 export const UserController = {
     createUsers,
-    loginUsers
+    loginUsers,
+    logOutUsers
 }

@@ -36,8 +36,15 @@ const loginUser = async (user: IUser) => {
 };
 
 
+// log out
+const logOutUser = async(user: string)=> {
+    const result = await User.logOut(user);
+    return result
+}
+
 
 export const UserService = {
     createUser,
-    loginUser
+    loginUser,
+    logOutUser
 }

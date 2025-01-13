@@ -10,6 +10,7 @@ router.post('/register', UserController.createUsers)
 // login user
 router.post('/login', UserController.loginUsers)
 
-
+// log out user
+router.post('/logout', UserController.logOutUsers)
 
 export const userRoutes = router;
