@@ -12,11 +12,13 @@ const createBlogPost = async (blog: IBlog)=> {
 
 
 // get all blog
-const getAllBlog = async (blog: IBlog, query: {})=> {
-    // const {search} = req.query
-    const result = await Blog.find(blog, query).sort({createdAt: -1});
+const getAllBlog = async (query: {}) => {
+    const result = await Blog.find(query)
+        .populate("author", "email")
+        .sort({ createdAt: -1 }); // Sort blogs by creation date (newest first)
     return result;
-}
+};
+
 
 // get single blog by id
 const getSingleBlog = async(id: string)=> {
@@ -44,7 +46,7 @@ const deleteBlog = async(id: string)=> {
 // related blog
 const relatedBlog = async(id: string)=> {
     const result = Blog.findById(id);
-    
+
     return result
 }
 

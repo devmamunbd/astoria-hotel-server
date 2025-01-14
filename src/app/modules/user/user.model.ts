@@ -5,30 +5,31 @@ const bcrypt = require('bcrypt');
 export const userSchema = new Schema({
     username: {
         type: String,
-        require: true,
+        required: true,
         unique: true
     },
     email: {
         type: String,
-        require: true,
+        required: true,
         unique: true
     },
     password: {
         type: String,
-        require: true,
-        unique: true
+        required: true
     },
     role: {
         type: String,
-        require: true
+        required: true
     },
     createdAt: {
         type: Date,
         default: Date.now
     }
-
-
+},
+{
+    timestamps: true,
 });
+
 
 // password hashing
 userSchema.pre('save', async function(next){
@@ -63,4 +64,4 @@ userSchema.statics.logOut = async function (user: string) {
 
 
 // Define the User model with IUser and IUserMethods types
-export const User = mongoose.model<IUser & Document>('User', userSchema);
+export const User = mongoose.model<IUser & Document>('user', userSchema);

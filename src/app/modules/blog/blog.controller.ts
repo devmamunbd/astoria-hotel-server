@@ -8,7 +8,7 @@ import { Comment } from "../comment/comment.model";
 
 // create a blog posts
 const createBlogPosts = async(req: Request, res: Response)=> {
-    const blog = req.body;
+    const blog = ({ ...req.body });
     const result = await BlogService.createBlogPost(blog);
     res.status(201).send({
         message: 'Post Create SuccessFully',
@@ -18,41 +18,47 @@ const createBlogPosts = async(req: Request, res: Response)=> {
 }
 
 // get all blogs
-const getAllBlogs = async(req: Request, res: Response)=> {
-    // res.send('Blog Rouet Is Here')
-    const blog = req.body;
+const getAllBlogs = async (req: Request, res: Response) => {
+    try {
+        const { search, category, location } = req.query;
 
-    const {search, category, location} = req.query;
-    let query = {}
-    if (query) {
-        query = {
-            ...query,
-            $or: [
-                {title: {$regex: search, $options: "i"}},
-                {content: {$regex: search, $options: "i"}},
-            ]
-        }
-    }
-    if(category){
-        query = {
-            ...query,
-            category: category
-        }
-    }
+        let query: any = {}; // Initialize an empty query object
 
-    if (location) {
-        query = {
-            ...query,
-            location: location
+        // Add search condition
+        if (search) {
+            query.$or = [
+                { title: { $regex: search, $options: "i" } },
+                { content: { $regex: search, $options: "i" } },
+            ];
         }
-    }
 
-    const result = (await BlogService.getAllBlog(blog, query));
-    res.status(200).send({
-        message: 'All Blogs Post Get SuccessFully',
-        post: result
-    })
-}
+        // Add category condition
+        if (category) {
+            query.category = category;
+        }
+
+        // Add location condition
+        if (location) {
+            query.location = location;
+        }
+
+        console.log("Query: ", query); // Debugging log
+
+        // Fetch blogs with the constructed query
+        const result = await BlogService.getAllBlog(query);
+
+        res.status(200).send({
+            message: "All Blogs Post Get Successfully",
+            post: result,
+        });
+    } catch (error) {
+        console.error("Error fetching blogs:", error); // Debugging log
+        res.status(500).send({
+            message: "Failed to fetch blogs"// Include error details
+        });
+    }
+};
+
 
 
 // get single blog by id

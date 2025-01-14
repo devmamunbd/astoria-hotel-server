@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 
 export const BlogSchema = new Schema(
   {
@@ -10,10 +10,17 @@ export const BlogSchema = new Schema(
       type: String,
       require: true,
     },
-    content: String,
+    content: {
+        type: Object,
+        require: true
+    },
     coverImg: String,
     category: String,
-    author: String,
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+        require: true
+    },
     ratting: Number,
   },
   {
