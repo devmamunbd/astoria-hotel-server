@@ -1,12 +1,13 @@
 import express from "express";
 import { BlogController } from "./blog.controller";
 import { verifyToken } from "../../middlewares/verifyToken";
+import { isAdmin } from "../../middlewares/isAdmin";
 const router = express.Router()
 
 
 
 // create post router
-router.post('/create',verifyToken, BlogController.createBlogPosts);
+router.post('/create',verifyToken, isAdmin, BlogController.createBlogPosts);
 
 // get all blogs
 router.get('/', BlogController.getAllBlogs);
