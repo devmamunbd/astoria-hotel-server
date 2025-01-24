@@ -62,7 +62,7 @@ const getAllBlogs = async (req: Request, res: Response) => {
 
 
 // get single blog by id
-const getSingleBlogs = async(req: Request, res: Response)=> {
+const getSingleBlogs = async (req: Request, res: Response)=> {
     const id = req.params.id;
     const post = await BlogService.getSingleBlog(id);
     if(!post){
